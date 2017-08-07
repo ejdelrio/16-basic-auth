@@ -8,7 +8,7 @@ const debug = require('debug')('app: auth-route')
 
 authRoute = new Router();
 
-authRoute.post('/api/signup', function(req, res, next) {
+authRoute.post('/api/signup', jsonParser, function(req, res, next) {
   debug('POST /api/signup');
 });
 
