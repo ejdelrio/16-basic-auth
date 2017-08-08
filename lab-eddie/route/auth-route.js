@@ -8,8 +8,8 @@ const basicAuth = require('../lib/basic-auth.js');
 
 authRoute = new Router();
 
-authRoute.post('/api/signup', jsonParser, function(req, res, next) {
-  debug('POST /api/signup');
+authRoute.post('/api/newuser', jsonParser, function(req, res, next) {
+  debug('POST /api/newuser');
 
   let passWord = req.body.passWord;
   delete req.body.passWord;
