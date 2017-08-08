@@ -28,5 +28,8 @@ authRoute.get('/api/signin',basicAuth , function(req, res, next) {
   debug('GET /api/signin');
 
   User.findOne({userName: req.auth.userName})
-  .then()
+  .then(user => user.confirmPass(req.auth.passWord))
+  .then(user => user.generateToken())
+  .then(token => res.send(token))
+  .catch(next);
 });
