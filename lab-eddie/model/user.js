@@ -29,11 +29,12 @@ User.methods.generatePasswordHash = function(password) {
   })
 }
 
-User.methods.comparePass = function(password) {
+User.methods.confirmPass = function(password) {
   debug('comparePass');
 
+
   return new Promise((resolve, reject) => {
-    bcrypt.compare(password, this.password, (err, vali) => {
+    bcrypt.compare(password, this.passWord, (err, valid) => {
       if(err) return reject(err);
       if(!valid) return reject(creatError(401, 'Invalid Password!'));
       resolve(this);

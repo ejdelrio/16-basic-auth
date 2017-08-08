@@ -12,9 +12,9 @@ module.exports = function(req, res, next) {
   let base64auth = authHeader.split('Basic ')[1];
   if(!base64auth) return next(createError(401, 'Must Enter Username and Password'));
 
-  let utf8auth = new Buffer(base64auth).toString();
-  loginfo = utf8auth.split(':');
-
+  let utf8auth = new Buffer(base64auth, 'base64').toString();
+  let loginfo = utf8auth.split(':');
+  console.log(authHeader)
   req.auth = {
     userName: loginfo[0],
     passWord: loginfo[1]
