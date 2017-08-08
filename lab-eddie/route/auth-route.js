@@ -27,5 +27,6 @@ authRoute.post('/api/signup', jsonParser, function(req, res, next) {
 authRoute.get('/api/signin',basicAuth , function(req, res, next) {
   debug('GET /api/signin');
 
-
+  User.findOne({userName: req.auth.userName})
+  .then()
 });
