@@ -40,3 +40,24 @@ User.method.comparePass = function(password) {
     })
   });
 }
+
+User.method.generateHash = function() {
+  debug('generateHash');
+
+  return Promise((resolve, reject) => {
+    let tries = 0;
+
+    generateHash.call(this); 
+
+    function _generateHash() {
+      this.findHash = crypto.randomBytes(32).toString('hex');
+      this.save()
+      .then(() => resolve(this.findHash))
+      .catch(err => {
+        if(tries >2) return reject(err);
+        tries++;
+        _generateHash.call(this);
+      });
+    };
+  });
+};
