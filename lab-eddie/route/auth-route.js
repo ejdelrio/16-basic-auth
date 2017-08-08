@@ -22,7 +22,7 @@ authRoute.post('/api/newuser', jsonParser, function(req, res, next) {
   .then(user => user.save())
   .then(user => user.tokenGen())
   .then(token => res.send(token))
-  .catch(next);
+  .catch(err => next(creatError(400, err.message)));
 
 });
 

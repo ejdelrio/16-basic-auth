@@ -1,11 +1,11 @@
 'use strict';
 
 const createError = require('http-errors');
-const debug = require('debug')('note:error-middleware');
+const debug = require('debug')('app:error');
 
 module.exports = function(err, req, res, next) {
   console.error(err.message);
-
+  console.log('ERROR NAME XXXXXX: ', err.name);
   if (err.status) {
     debug('user error');
 

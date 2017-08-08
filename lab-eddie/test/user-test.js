@@ -30,6 +30,24 @@ describe('Authentication Routes for lab', function() {
         .end((err, res) => {
           if(err) return done(err);
           expect(res.status).to.equal(200);
+          expect(res.text).to.be.a('string');
+          done();
+        });
+      });
+    })
+    describe('With an improper body', function() {
+
+      after(done => {
+        User.remove({})
+        .then(() => done())
+        .catch(done);
+      })
+
+      it('Return a req body and a 200 code', done => {
+        request.post(`${url}/newuser`)
+        .send({random: 'crap'})
+        .end((err) => {
+          expect(err.status).to.equal(400);
           done();
         });
       });
