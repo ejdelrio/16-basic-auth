@@ -61,3 +61,15 @@ User.method.generateHash = function() {
     };
   });
 };
+
+User.method.tokenGen = function() {
+  debug('tokenGen');
+
+  return Promise((resolve, reject) => {
+    this.generateHash()
+    .then(hash => resolve(jwt.sign({token: hash}, process.env.APP_SECRET)))
+    .reject(err => reject(err));
+  });
+};
+
+module.exports = mongoose.model('user', User);
