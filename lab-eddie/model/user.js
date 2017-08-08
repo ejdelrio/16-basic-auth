@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const creatError = require('http-erros');
+const creatError = require('http-errors');
 const debug = require('debug')('app: user');
 const crypto = require('crypto');
 const Promise = require('bluebird');
@@ -17,22 +17,22 @@ const User = Schema({
   findHash: {type: String, unique: true}
 });
 
-User.method.generatePasswordHash = function(password) {
+User.methods.generatePasswordHash = function(password) {
   debug('generatePasswordHash');
 
-  return Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     bcrypt.hash(password, 5, (err, hash) => {
       if(err) return reject(err);
-      this.password = hash;
+      this.passWord = hash;
       resolve(this);
     })
   })
 }
 
-User.method.comparePass = function(password) {
+User.methods.comparePass = function(password) {
   debug('comparePass');
 
-  return Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     bcrypt.compare(password, this.password, (err, vali) => {
       if(err) return reject(err);
       if(!valid) return reject(creatError(401, 'Invalid Password!'));
@@ -41,13 +41,13 @@ User.method.comparePass = function(password) {
   });
 }
 
-User.method.generateHash = function() {
+User.methods.generateHash = function() {
   debug('generateHash');
 
-  return Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     let tries = 0;
 
-    generateHash.call(this); 
+    _generateHash.call(this); 
 
     function _generateHash() {
       this.findHash = crypto.randomBytes(32).toString('hex');
@@ -62,13 +62,13 @@ User.method.generateHash = function() {
   });
 };
 
-User.method.tokenGen = function() {
+User.methods.tokenGen = function() {
   debug('tokenGen');
 
-  return Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     this.generateHash()
     .then(hash => resolve(jwt.sign({token: hash}, process.env.APP_SECRET)))
-    .reject(err => reject(err));
+    .catch(err => reject(err));
   });
 };
 

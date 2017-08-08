@@ -3,7 +3,7 @@
 const debug = require('debug')('app: basic-auth');
 const createError = require('http-errors');
 
-modulde.exports = function(req, res, next) {
+module.exports = function(req, res, next) {
   debug('basic-auth');
 
   let authHeader = req.headers.authorization;
